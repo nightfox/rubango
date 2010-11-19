@@ -8,10 +8,10 @@ module SaasPulse
       def parse(args)
         new.tap do |parser|
           args.each do |arg, val|
-            meth = registered_args[arg]
-            raise InvalidParamError, "'#{arg}' does not map to a valid param" unless meth
+            param = registered_args[arg]
+            raise InvalidParamError, "'#{arg}' does not map to a valid param" unless param
 
-            parser.send(:"#{meth}=", val)
+            parser[param] = val
           end
         end
       end
@@ -20,7 +20,7 @@ module SaasPulse
 
       def parses_arg(name, *aliases)
         register_named_arg! name
-        attr_accessor name
+        attr_reader name
 
         aliases.unshift(name).each do |argname|
           registered_args[argname] = name
@@ -44,8 +44,16 @@ module SaasPulse
 
     def to_params
       ArgParser.named_args.map do |arg|
-        [arg, CGI.escape(send(arg).to_s)].join("=")
+        [arg, CGI.escape(self[arg].to_s)].join("=")
       end.join("&")
+    end
+
+    def [](arg)
+      instance_variable_get :"@#{arg}"
+    end
+
+    def []=(arg, val)
+      instance_variable_set :"@#{arg}", val
     end
   end
 end
