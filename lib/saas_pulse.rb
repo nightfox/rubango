@@ -1,6 +1,13 @@
+lib = File.expand_path('../../lib/', __FILE__) 
+$:.unshift(lib) unless $:.include?(lib)
+
 require 'open-uri'
 require 'cgi'
 
-require File.expand_path("../saas_pulse/client", __FILE__)
-require File.expand_path("../saas_pulse/arg_parser", __FILE__)
+require 'saas_pulse/client'
+require 'saas_pulse/arg_parser'
+require 'saas_pulse/tracker'
+require 'saas_pulse/resource'
+require 'saas_pulse/adapters/base'
+require 'saas_pulse/adapters/merb'
 
