@@ -60,8 +60,8 @@ There are currently adapters for rails and merb, but it is simple to write your 
       extend SaasPulse::Adapters::Base
 
       register_adapter :my_adapter
-      hook_method :before_hook
-      action_finder :action_name
+      hook_method :before_hook      # Hook method name that will be called before or after each action
+      action_finder :action_name    # Method that determines the current action being hit
 
       # You can set defaults from here that will be set on the controller class
       # that includes your adapter and all of its subclasses
