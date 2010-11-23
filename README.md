@@ -1,15 +1,15 @@
 saas\_pulse-ruby
-----------------
+================
 
 A simple API wrapper for integrating your rails application with [SaaSPulse](http://www.saaspulse.com).
 
 Installation
-============
+------------
 
 `gem install saas_pulse-ruby`
 
 Usage
-=====
+-----
 
 First, build your client with your API id:
 
@@ -70,7 +70,7 @@ There are currently adapters for rails and merb, but it is simple to write your 
     end
 
 TODO
-====
+----
 
 * Adapter tests
 * JS client integration
