@@ -15,7 +15,7 @@ module SaasPulse
     end
 
     def track(data={})
-      open(build_url(data))
+      Thread.new {open(build_url(data))}
     end
 
     def build_url(data)
