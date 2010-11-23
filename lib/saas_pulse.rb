@@ -11,4 +11,5 @@ require 'saas_pulse/adapter'
 require 'saas_pulse/resource'
 require 'saas_pulse/adapters/base'
 require 'saas_pulse/adapters/merb'
+require 'saas_pulse/adapters/rails'
 

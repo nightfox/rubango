@@ -1,5 +1,3 @@
-require 'saas_pulse/adapters/base'
-
 module SaasPulse
   module Adapters
     module Merb
