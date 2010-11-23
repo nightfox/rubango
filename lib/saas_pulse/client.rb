@@ -23,6 +23,7 @@ module SaasPulse
 
     def track(data={})
       url = build_url(data)
+      puts url
       Thread.new {open(url)}
     end
 
