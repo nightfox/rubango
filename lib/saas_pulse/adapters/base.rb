@@ -10,11 +10,11 @@ module SaasPulse
       def included(klass)
         klass.send(:include, SaasPulse::Resource) unless klass.include?(SaasPulse::Resource)
         (@defaults || []).each do |e|
-          klass.sp_defaults *e
+          klass.sp_default *e
         end
       end
 
-      def sp_defaults(k, v)
+      def sp_default(k, v)
         @defaults ||= []
         @defaults << [k,v]
       end

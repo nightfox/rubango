@@ -9,8 +9,8 @@ module SaasPulse
       hook_method :before
       action_finder :action_name
 
-      sp_defaults :activity, proc { action_name }
-      sp_defaults :module,   proc { controller_name }
+      sp_default :activity, proc { action_name }
+      sp_default :module,   proc { controller_name }
     end
   end
 end

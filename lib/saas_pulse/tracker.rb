@@ -1,12 +1,15 @@
 module SaasPulse
   class Tracker
-    def initialize(action, activity=nil, opts={})
+    def initialize(action, *opts)
       @action = action
-      @opts = opts
+      activity = opts.shift
+      @opts = opts.empty? ? {} : opts.shift
+
+      return unless activity
 
       case activity
       when String
-        opts[:activity] = activity
+        @opts[:activity] = activity
       when Hash
         @opts = activity
       else

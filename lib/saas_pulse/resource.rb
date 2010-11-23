@@ -2,7 +2,7 @@ module SaasPulse
   class NoAdapterError < StandardError; end
 
   module Resource
-    @__sp_defaults__ = {
+    @sp_defaults = {
       :organization => "Default Org",
       :user => "Default User",
       :activity => "Default Activity",
@@ -10,16 +10,17 @@ module SaasPulse
     }
 
     module ClassMethods
-      def sp_defaults(key, val)
-        raise ArgumentError, "Key #{key.inspect} is not a valid option" unless @__sp_defaults__.keys.member?(key)
+      def sp_default(key, val)
+        raise ArgumentError, "Key #{key.inspect} is not a valid option" unless @sp_defaults.keys.member?(key)
 
-        @__sp_defaults__[key] = val
+        sp_defaults[key] = val
       end
 
       # action<Symbol>:: Action to track
       # opts<Hash>:: Override defaults and set conditional tracking
-      def track(action, opts={})
-        sp_trackers << SaasPulse::Tracker.new(action, opts)
+      def track(action, *opts)
+        tracker = SaasPulse::Tracker.new(action, *opts)
+        sp_trackers << tracker unless sp_trackers.find {|t| t.action == action}
       end
 
       def sp_trackers
@@ -30,13 +31,14 @@ module SaasPulse
 
       def inherited(klass)
         super(klass)
-        klass.instance_variable_set :@__sp_defaults__, @__sp_defaults__.dup
+        klass.instance_variable_set :@sp_defaults, @sp_defaults.dup
       end
     end
 
     def self.included(base)
       base.extend ClassMethods
-      base.instance_variable_set :@__sp_defaults__, @__sp_defaults__.dup
+      class << base; attr_reader :sp_defaults end
+      base.instance_variable_set :@sp_defaults, @sp_defaults.dup
       base.send(SaasPulse.adapter.hook, :sp_run)
     end
 
@@ -71,7 +73,7 @@ module SaasPulse
     end
 
     def sp_defaults
-      self.class.instance_variable_get :@__sp_defaults__
+      self.class.sp_defaults
     end
   end
 end
