@@ -2,12 +2,13 @@ module SaasPulse
   module Adapters
     module Base
       def self.extended(base)
-        SaasPulse.adapter = SaasPulse::Adapter.new
+        base.instance_variable_set :@__current_adapter__, SaasPulse::Adapter.new
       end
 
       private
 
       def included(klass)
+        SaasPulse.adapter = adapter
         klass.send(:include, SaasPulse::Resource) unless klass.include?(SaasPulse::Resource)
         (@defaults || []).each do |e|
           klass.sp_default *e
@@ -20,15 +21,19 @@ module SaasPulse
       end
 
       def register_adapter(name)
-        SaasPulse.adapter.name = name
+        adapter.name = name
       end
 
       def hook_method(name)
-        SaasPulse.adapter.hook = name
+        adapter.hook = name
       end
 
       def action_finder(name)
-        SaasPulse.adapter.action_finder = name
+        adapter.action_finder = name
+      end
+
+      def adapter
+        @__current_adapter__
       end
     end
   end
