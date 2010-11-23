@@ -43,14 +43,17 @@ module SaasPulse
     private
 
     def sp_run
-      adapter = SaasPulse.adapter
-      raise NoAdapterError, "No adapter has been set" unless adapter
+      raise NoAdapterError, "No adapter has been set" unless SaasPulse.adapter
 
       tracker = self.class.sp_trackers.find do |t|
         t.action == send(adapter.action_finder)
       end
 
       return unless tracker
+
+      if condition = tracker.opts[:if]
+        return unless instance_eval(&condition)
+      end
 
       SaasPulse.track({
         :o => sp_opt(tracker, :organization),

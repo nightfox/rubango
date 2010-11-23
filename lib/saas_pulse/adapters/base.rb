@@ -1,5 +1,3 @@
-require 'saas_pulse/adapter'
-
 module SaasPulse
   module Adapters
     module Base
@@ -7,14 +5,14 @@ module SaasPulse
         SaasPulse.adapter = SaasPulse::Adapter.new
       end
 
+      private
+
       def included(klass)
-        klass.send(:include, SaasPulse::Resource) unless include?(SaasPulse::Resource)
+        klass.send(:include, SaasPulse::Resource) unless klass.include?(SaasPulse::Resource)
         (@defaults || []).each do |e|
           klass.sp_defaults *e
         end
       end
-
-      private
 
       def sp_defaults(k, v)
         @defaults ||= []
