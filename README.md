@@ -15,6 +15,12 @@ First, build your client with your API id:
 
     SaasPulse.srv_id "YOUR_ID_GOES_HERE"
 
+You must turn the tracker on - otherwise the url will be printed to stdout and no call will be performed.
+
+    SaasPulse.on!
+
+You will probably only want to do this in production mode.
+
 You can then interact with `SaasPulse.client` to do your bidding:
 
     SaasPulse.client.track({
