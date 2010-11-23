@@ -40,4 +40,13 @@ describe SaasPulse::Client do
     it {@client.build_url(:u => "user").should match(/sdr_u=user/)}
     it {@client.build_url(:user => "user").should match(/sdr_u=user/)}
   end
+
+  describe "Tracking" do
+    before { SaasPulse.instance_variable_set(:@client, nil) }
+
+    it "requires a client to be set" do
+      lambda {SaasPulse.track(:fake => "data")}.should raise_error(SaasPulse::NoClientError)
+    end
+  end
 end
+
