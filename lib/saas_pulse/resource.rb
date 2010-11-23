@@ -48,7 +48,7 @@ module SaasPulse
       raise NoAdapterError, "No adapter has been set" unless SaasPulse.adapter
 
       tracker = self.class.sp_trackers.find do |t|
-        t.action == send(adapter.action_finder)
+        t.action == send(SaasPulse.adapter.action_finder)
       end
 
       return unless tracker
