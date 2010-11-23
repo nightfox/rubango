@@ -14,6 +14,14 @@ module SaasPulse
     def srv_id(srv_id)
       @client = Client.new(srv_id)
     end
+
+    def on?
+      !!@on
+    end
+
+    def on!
+      @on = true
+    end
   end
 
   class Client
@@ -23,8 +31,12 @@ module SaasPulse
 
     def track(data={})
       url = build_url(data)
-      puts url
-      Thread.new {open(url)}
+
+      if SaasPulse.on?
+        Thread.new {open(url)}
+      else
+        puts "[SaasPulse] Fake call to #{url}. To make a real call, run SaasPulse.on!"
+      end
     end
 
     def build_url(data)
