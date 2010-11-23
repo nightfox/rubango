@@ -1,3 +1,3 @@
 module SaasPulse
-  VERSION = "0.1.0" unless defined?(::SaasPulse::VERSION)
+  VERSION = "0.1.1" unless defined?(::SaasPulse::VERSION)
 end
