@@ -20,7 +20,7 @@ module SaasPulse
       # opts<Hash>:: Override defaults and set conditional tracking
       def track(action, *opts)
         tracker = SaasPulse::Tracker.new(action, *opts)
-        sp_trackers << tracker unless sp_trackers.find {|t| t.action == action}
+        sp_trackers << tracker unless sp_trackers.find {|t| t.action.to_s == action.to_s}
       end
 
       def sp_trackers
@@ -48,7 +48,7 @@ module SaasPulse
       raise NoAdapterError, "No adapter has been set" unless SaasPulse.adapter
 
       tracker = self.class.sp_trackers.find do |t|
-        t.action == send(SaasPulse.adapter.action_finder)
+        t.action.to_s == send(SaasPulse.adapter.action_finder).to_s
       end
 
       return unless tracker
@@ -65,8 +65,8 @@ module SaasPulse
       })
     end
 
-    def sp_opt(param, tracker)
-      value = tracker[param] || sp_defaults[param]
+    def sp_opt(tracker, param)
+      value = tracker.opts[param] || sp_defaults[param]
 
       return instance_eval(&value) if Proc === value
       value
