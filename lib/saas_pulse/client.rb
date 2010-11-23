@@ -33,7 +33,13 @@ module SaasPulse
       url = build_url(data)
 
       if SaasPulse.on?
-        Thread.new {open(url)}
+        Thread.new do
+          begin
+            open(url)
+          rescue => e
+            STDERR.puts "[SaasPulse] ERROR making call to SaaSPulse: #{e.class} ~> #{e.message}"
+          end
+        end
       else
         puts "[SaasPulse] Fake call to #{url}. To make a real call, run SaasPulse.on!"
       end
