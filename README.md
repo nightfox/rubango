@@ -6,7 +6,7 @@ A simple API wrapper for integrating your rails application with [SaaSPulse](htt
 Installation
 ------------
 
-`gem install saas_pulse-ruby`
+    gem install saas_pulse-ruby
 
 Usage
 -----
@@ -15,11 +15,15 @@ First, build your client with your API id:
 
     SaasPulse.srv_id "YOUR_ID_GOES_HERE"
 
-You must turn the tracker on - otherwise the url will be printed to stdout and no call will be performed.
+By default, SaasPulse will not make remote calls. It will print a debug message about the URL that would be getting hit. This message can be annoying when testing. To turn the message off, use `SaasPulse::Config`:
 
-    SaasPulse.on!
+    SaasPulse::Config[:suppress_output] = true
 
-You will probably only want to do this in production mode.
+To make the remote call to saaspulse.com you must turn the tracker on:
+
+    SaasPulse.on! # you will probably only want to do this in production mode.
+
+You can suppress the debug message from being displayed when Saas
 
 You can then interact with `SaasPulse.client` to do your bidding:
 
