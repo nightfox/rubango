@@ -42,10 +42,60 @@ describe SaasPulse::Client do
   end
 
   describe "Tracking" do
-    before { SaasPulse.instance_variable_set(:@client, nil) }
+    context "when no client has been set" do
+      before { SaasPulse.instance_variable_set(:@client, nil) }
 
-    it "requires a client to be set" do
-      lambda {SaasPulse.track(:fake => "data")}.should raise_error(SaasPulse::NoClientError)
+      it "raises NoClientError" do
+        lambda {SaasPulse.track(:fake => "data")}.should raise_error(SaasPulse::NoClientError)
+      end
+    end
+
+    context "when client has been set" do
+      before do
+        SaasPulse.srv_id "lolwut"
+      end
+
+      context "when not turned on" do
+        let(:io_stream) {"/tmp/__sp_spec_tmp_stream"}
+
+        before do
+          SaasPulse::Config[:on] = false
+          @_stdout = $stdout
+          $stdout = File.open(io_stream, "w")
+        end
+
+        after do
+          $stdout = @_stdout
+        end
+
+        context "when not suppressing output" do
+          before do
+            SaasPulse::Config[:suppress_output] = false
+            SaasPulse.track :a => "hello thar"
+            $stdout.close
+          end
+
+          it "prints a debug message" do
+            File.read(io_stream).chomp.should match(/^\[SaasPulse\] Fake call to/)
+          end
+        end
+
+        context "when suppressing output" do
+          before do
+            SaasPulse::Config[:suppress_output] = true
+            SaasPulse.track :a => "hello thar"
+            $stdout.close
+          end
+
+          it "prints nothing" do
+            File.read(io_stream).chomp.should be_empty
+          end
+        end
+      end
+    end
+
+    it "prints a debug message instead of making the remote call if not turned on" do
+
     end
   end
 end

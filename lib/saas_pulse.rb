@@ -4,6 +4,7 @@ $:.unshift(lib) unless $:.include?(lib)
 require 'open-uri'
 require 'cgi'
 
+require 'saas_pulse/config'
 require 'saas_pulse/client'
 require 'saas_pulse/arg_parser'
 require 'saas_pulse/tracker'

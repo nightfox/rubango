@@ -16,11 +16,11 @@ module SaasPulse
     end
 
     def on?
-      !!@on
+      Config[:on]
     end
 
     def on!
-      @on = true
+      Config[:on] = true
     end
   end
 
@@ -41,7 +41,9 @@ module SaasPulse
           end
         end
       else
-        puts "[SaasPulse] Fake call to #{url}. To make a real call, run SaasPulse.on!"
+        unless Config[:suppress_output]
+          puts "[SaasPulse] Fake call to #{url}. To make a real call, run SaasPulse.on!"
+        end
       end
     end
 
