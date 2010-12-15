@@ -23,9 +23,7 @@ To make the remote call to saaspulse.com you must turn the tracker on:
 
     SaasPulse.on! # you will probably only want to do this in production mode.
 
-You can suppress the debug message from being displayed when Saas
-
-You can then interact with `SaasPulse.client` to do your bidding:
+You now interact with `SaasPulse.client` to do your bidding:
 
     SaasPulse.client.track({
       :organization => "Current organization",
