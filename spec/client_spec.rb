@@ -56,12 +56,11 @@ describe SaasPulse::Client do
       end
 
       context "when not turned on" do
-        let(:io_stream) {"/tmp/__sp_spec_tmp_stream"}
-
         before do
           SaasPulse::Config[:on] = false
           @_stdout = $stdout
-          $stdout = File.open(io_stream, "w")
+          @string_io = StringIO.new
+          $stdout = @string_io
         end
 
         after do
@@ -72,11 +71,10 @@ describe SaasPulse::Client do
           before do
             SaasPulse::Config[:suppress_output] = false
             SaasPulse.track :a => "hello thar"
-            $stdout.close
           end
 
           it "prints a debug message" do
-            File.read(io_stream).chomp.should match(/^\[SaasPulse\] Fake call to/)
+            @string_io.string.should match(/^\[SaasPulse\] Fake call to/)
           end
         end
 
@@ -84,19 +82,15 @@ describe SaasPulse::Client do
           before do
             SaasPulse::Config[:suppress_output] = true
             SaasPulse.track :a => "hello thar"
-            $stdout.close
           end
 
           it "prints nothing" do
-            File.read(io_stream).chomp.should be_empty
+            @string_io.string.should be_empty
           end
         end
       end
     end
 
-    it "prints a debug message instead of making the remote call if not turned on" do
-
-    end
   end
 end
 
