@@ -6,7 +6,7 @@ A ruby API wrapper for integrating your rails application with [Totango](http://
 Installation
 ------------
 
-    gem install rubango
+    gem install rubango # use 'totango' when require-ing
 
 Usage
 -----
