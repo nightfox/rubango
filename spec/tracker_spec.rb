@@ -1,8 +1,10 @@
 require File.expand_path "../spec_helper", __FILE__
 
 describe Totango::Tracker do
-  it "requires an action" do
-    lambda{Totango::Tracker.new}.should raise_error(ArgumentError)
+  context "when not sent an action" do
+    it "fails miserably" do
+      lambda{Totango::Tracker.new}.should raise_error(ArgumentError)
+    end
   end
 
   context "when sent an action" do
