@@ -1,4 +1,4 @@
-module SaasPulse
+module Totango
   class Tracker
     def initialize(action, *opts)
       @action = action

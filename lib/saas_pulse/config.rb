@@ -1,4 +1,4 @@
-module SaasPulse
+module Totango
   class Config
     class <<self
       def defaults

@@ -1,7 +1,7 @@
-module SaasPulse
+module Totango
   module Adapters
     module Rails
-      extend SaasPulse::Adapters::Base
+      extend Totango::Adapters::Base
 
       register_adapter :rails
       hook_method :after_filter

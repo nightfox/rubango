@@ -1,4 +1,4 @@
-module SaasPulse
+module Totango
   class InvalidParamError < StandardError; end
 
   class ArgParser

@@ -1,4 +1,4 @@
-module SaasPulse
+module Totango
   class << self; attr_accessor :adapter end
 
   class Adapter

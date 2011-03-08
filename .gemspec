@@ -5,16 +5,16 @@ require 'saas_pulse/version'
 
 Gem::Specification.new do |s|
   s.name         = "saas_pulse-ruby"
-  s.version      = SaasPulse::VERSION
+  s.version      = Totango::VERSION
   s.platform     = Gem::Platform::RUBY
   s.authors      = ["jonah honeyman"]
   s.email        = ["jonah@honeyman.org"]
-  s.summary      = "API wrapper for SaaSPulse tracking integration"
-  s.description  = "Enables easy integration of SaaSPulse tracking, with options for different ruby web frameworks"
+  s.summary      = "API wrapper for Totango tracking integration"
+  s.description  = "Enables easy integration of Totango tracking, with options for different ruby web frameworks"
   s.homepage     = "https://github.com/jonuts/saas_pulse-ruby"
 
   s.required_rubygems_version = ">= 1.3.6"
-  s.rubyforge_project         = "saas_pulse-ruby"
+  s.rubyforge_project         = "totango-ruby"
 
   s.add_development_dependency "rspec"
 

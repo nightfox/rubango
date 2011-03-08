@@ -1,7 +1,7 @@
-module SaasPulse
+module Totango
   module Adapters
     module Merb
-      extend SaasPulse::Adapters::Base
+      extend Totango::Adapters::Base
 
       register_adapter :merb
       hook_method :after

@@ -1,4 +1,4 @@
-module SaasPulse
+module Totango
   class NoAdapterError < StandardError; end
 
   module Resource
@@ -19,7 +19,7 @@ module SaasPulse
       # action<Symbol>:: Action to track
       # opts<Hash>:: Override defaults and set conditional tracking
       def track(action, *opts)
-        tracker = SaasPulse::Tracker.new(action, *opts)
+        tracker = Totango::Tracker.new(action, *opts)
         sp_trackers << tracker unless sp_trackers.find {|t| t.action.to_s == action.to_s}
       end
 
@@ -39,16 +39,16 @@ module SaasPulse
       base.extend ClassMethods
       class << base; attr_reader :sp_defaults end
       base.instance_variable_set :@sp_defaults, @sp_defaults.dup
-      base.send(SaasPulse.adapter.hook, :sp_run)
+      base.send(Totango.adapter.hook, :sp_run)
     end
 
     private
 
     def sp_run
-      raise NoAdapterError, "No adapter has been set" unless SaasPulse.adapter
+      raise NoAdapterError, "No adapter has been set" unless Totango.adapter
 
       tracker = self.class.sp_trackers.find do |t|
-        t.action.to_s == send(SaasPulse.adapter.action_finder).to_s
+        t.action.to_s == send(Totango.adapter.action_finder).to_s
       end
 
       return unless tracker
@@ -57,7 +57,7 @@ module SaasPulse
         return unless instance_eval(&condition)
       end
 
-      SaasPulse.track({
+      Totango.track({
         :o => sp_opt(tracker, :organization),
         :a => sp_opt(tracker, :activity),
         :m => sp_opt(tracker, :module),

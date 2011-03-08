@@ -1,5 +1,5 @@
-module SaasPulse
-  BASE_URI = "http://sdr.saaspulse.com/pixel.gif/?sdr_s=".freeze unless self.const_defined?(:BASE_URI)
+module Totango
+  BASE_URI = "http://sdr.totango.com/pixel.gif/?sdr_s=".freeze unless self.const_defined?(:BASE_URI)
 
   class NoClientError < StandardError; end
 
@@ -32,17 +32,17 @@ module SaasPulse
     def track(data={})
       url = build_url(data)
 
-      if SaasPulse.on?
+      if Totango.on?
         Thread.new do
           begin
             open(url)
           rescue => e
-            STDERR.puts "[SaasPulse] ERROR making call to SaaSPulse: #{e.class} ~> #{e.message}"
+            STDERR.puts "[Totango] ERROR making call to Totango: #{e.class} ~> #{e.message}"
           end
         end
       else
         unless Config[:suppress_output]
-          puts "[SaasPulse] Fake call to #{url}. To make a real call, run SaasPulse.on!"
+          puts "[Totango] Fake call to #{url}. To make a real call, run Totango.on!"
         end
       end
     end

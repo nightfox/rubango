@@ -1,15 +1,15 @@
-module SaasPulse
+module Totango
   module Adapters
     module Base
       def self.extended(base)
-        base.instance_variable_set :@__current_adapter__, SaasPulse::Adapter.new
+        base.instance_variable_set :@__current_adapter__, Totango::Adapter.new
       end
 
       private
 
       def included(klass)
-        SaasPulse.adapter = adapter
-        klass.send(:include, SaasPulse::Resource) unless klass.include?(SaasPulse::Resource)
+        Totango.adapter = adapter
+        klass.send(:include, Totango::Resource) unless klass.include?(Totango::Resource)
         (@defaults || []).each do |e|
           klass.sp_default *e
         end
