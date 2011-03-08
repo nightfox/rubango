@@ -1,31 +1,31 @@
-saas\_pulse-ruby
+rubango
 ================
 
-A simple API wrapper for integrating your rails application with [SaaSPulse](http://www.saaspulse.com).
+A ruby API wrapper for integrating your rails application with [Totango](http://www.totango.com).
 
 Installation
 ------------
 
-    gem install saas_pulse-ruby
+    gem install rubango
 
 Usage
 -----
 
 First, build your client with your API id:
 
-    SaasPulse.srv_id "YOUR_ID_GOES_HERE"
+    Totango.srv_id "YOUR_ID_GOES_HERE"
 
-By default, SaasPulse will not make remote calls. It will print a debug message about the URL that would be getting hit. This message can be annoying when testing. To turn the message off, use `SaasPulse::Config`:
+By default, Totango will not make remote calls. It will print a debug message about the URL that would be getting hit. This message can be annoying when testing. To turn the message off, use `Totango::Config`:
 
-    SaasPulse::Config[:suppress_output] = true
+    Totango::Config[:suppress_output] = true
 
-To make the remote call to saaspulse.com you must turn the tracker on:
+To make the remote call to totango.com you must turn the tracker on:
 
-    SaasPulse.on! # you will probably only want to do this in production mode.
+    Totango.on! # you will probably only want to do this in production mode.
 
-You now interact with `SaasPulse.client` to do your bidding:
+You now interact with `Totango.client` to do your bidding:
 
-    SaasPulse.client.track({
+    Totango.client.track({
       :organization => "Current organization",
       :user => "Current user",
       :activity => "Current activity",
@@ -37,7 +37,7 @@ There is also the option for integration with different ruby frameworks.
 ### Rails
 
     class ApplicationController < ActionController::Base
-      include SaasPulse::Adapters::Rails
+      include Totango::Adapters::Rails
 
       #...
     end
@@ -51,7 +51,7 @@ That will build your tracking code based around a couple of sane defaults. By de
       sp_default :user, proc { method_to_determine_current_user }
     end
 
-To track different actions, you must now tell SaasPulse which actions you would like to track:
+To track different actions, you must now tell Totango which actions you would like to track:
 
     class MyController < ApplictationController
       track :index
@@ -65,7 +65,7 @@ To track different actions, you must now tell SaasPulse which actions you would 
 There are currently adapters for rails and merb, but it is simple to write your own adapter
 
     module MySPAdapter
-      extend SaasPulse::Adapters::Base
+      extend Totango::Adapters::Base
 
       register_adapter :my_adapter
       hook_method :before_hook      # Hook method name that will be called before or after each action
