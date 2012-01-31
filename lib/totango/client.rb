@@ -33,12 +33,10 @@ module Totango
       url = build_url(data)
 
       if Totango.on?
-        Thread.new do
-          begin
-            open(url)
-          rescue => e
-            STDERR.puts "[Totango] ERROR making call to Totango: #{e.class} ~> #{e.message}"
-          end
+        if Config[:synchronous]
+          send(url)
+        else
+          Thread.new { send(url) }
         end
       else
         unless Config[:suppress_output]
@@ -49,6 +47,14 @@ module Totango
 
     def build_url(data)
       [BASE_URI, @srv_id, "&", ArgParser.parse(data).to_params].join
+    end
+
+    def send(url)
+      begin
+        open(url)
+      rescue => e
+        STDERR.puts "[Totango] ERROR making call to Totango: #{e.class} ~> #{e.message}"
+      end
     end
   end
 end

@@ -32,6 +32,10 @@ You now interact with `Totango.client` to do your bidding:
       :module => "Current module"
     })
 
+By default, Totango will create a new thread to make the remote calls. If you already track the events using a background job, you should use synchronous calls. To turn synchronous calls on, use `Totango::Config`:
+
+    Totango::Config[:synchronous] = true
+
 There is also the option for integration with different ruby frameworks.
 
 ### Rails
