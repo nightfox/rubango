@@ -4,7 +4,8 @@ module Totango
       def defaults
         @defaults ||= {
           :on => false,
-          :suppress_output => false
+          :suppress_output => false,
+          :synchronous => false
         }
       end
 

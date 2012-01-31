@@ -89,6 +89,34 @@ describe Totango::Client do
           end
         end
       end
+
+      context "when turned on" do
+        before do
+          Totango::Config[:on] = true
+        end
+
+        context "when using synchronous requests" do
+          before do
+            Totango::Config[:synchronous] = true
+          end
+
+          it "doesn't create a new thread" do
+            Thread.should_receive(:new).never
+            Totango.track :a => "hello thar"
+          end
+        end
+
+        context "when using asynchronous requests" do
+          before do
+            Totango::Config[:synchronous] = false
+          end
+
+          it "creates a new thread" do
+            Thread.should_receive(:new).once
+            Totango.track :a => "hello thar"
+          end
+        end
+      end
     end
 
   end
