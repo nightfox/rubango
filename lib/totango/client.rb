@@ -34,9 +34,9 @@ module Totango
 
       if Totango.on?
         if Config[:synchronous]
-          send(url)
+          make_request(url)
         else
-          Thread.new { send(url) }
+          Thread.new { make_request(url) }
         end
       else
         unless Config[:suppress_output]
@@ -49,11 +49,13 @@ module Totango
       [BASE_URI, @srv_id, "&", ArgParser.parse(data).to_params].join
     end
 
-    def send(url)
+    def make_request(url)
       begin
         open(url)
+        true
       rescue => e
-        STDERR.puts "[Totango] ERROR making call to Totango: #{e.class} ~> #{e.message}"
+        $stderr.puts "[Totango] ERROR making call to Totango: #{e.class} ~> #{e.message}"
+        false
       end
     end
   end

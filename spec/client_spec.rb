@@ -95,30 +95,60 @@ describe Totango::Client do
           Totango::Config[:on] = true
         end
 
-        context "when using synchronous requests" do
+        describe "successful request" do
           before do
-            Totango::Config[:synchronous] = true
+            OpenURI.stub!(:open_uri).and_return true
           end
 
-          it "doesn't create a new thread" do
-            Thread.should_receive(:new).never
-            Totango.track :a => "hello thar"
+          context "when using synchronous requests" do
+            before do
+              Totango::Config[:synchronous] = true
+            end
+
+            it "doesn't create a new thread" do
+              Thread.should_receive(:new).never
+              Totango.track :a => "hello thar"
+            end
+          end
+
+          context "when using asynchronous requests" do
+            before do
+              Totango::Config[:synchronous] = false
+            end
+
+            it "creates a new thread" do
+              Thread.should_receive(:new).once
+              Totango.track :a => "hello thar"
+            end
           end
         end
 
-        context "when using asynchronous requests" do
+        describe "failed request" do
           before do
-            Totango::Config[:synchronous] = false
+            Totango::Config[:synchronous] = true
+            Totango::Config[:suppress_output] = true
+            OpenURI.stub!(:open_uri).and_raise SocketError.new("network lulz")
           end
 
-          it "creates a new thread" do
-            Thread.should_receive(:new).once
-            Totango.track :a => "hello thar"
+          before :all do
+            @_stderr    = $stderr
+            @stdcapture = StringIO.new
+            $stderr     = @stdcapture
+          end
+
+          after(:all) {$stderr = @_stderr}
+
+          specify "the tracking request returns false" do
+            Totango.track(:a => "hello thar").should_not be
+          end
+
+          it "logs the error to stderr" do
+            errmsg = "[Totango] ERROR making call to Totango: SocketError ~> network lulz\n"
+            @stdcapture.string.should eql(errmsg)
           end
         end
       end
     end
-
   end
 end
 
