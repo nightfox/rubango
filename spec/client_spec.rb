@@ -8,13 +8,15 @@ describe Totango::Client do
   it "builds a valid url when sent correct data" do
     valid_url  = "http://sdr.totango.com/pixel.gif/?sdr_s=lolwut"\
                  "&sdr_a=fake+activity&sdr_o=legit+organization"\
-                 "&sdr_m=awesome+module&sdr_u=annoying+user"
+                 "&sdr_m=awesome+module&sdr_u=annoying+user"\
+                 "&sdr_ofid=1234"
 
     @client.build_url({
       :sdr_a => "fake activity",
       :sdr_o => "legit organization",
       :sdr_m => "awesome module",
-      :sdr_u => "annoying user"
+      :sdr_u => "annoying user",
+      :sdr_ofid => "1234"
     }).should eql(valid_url)
   end
 
@@ -39,6 +41,9 @@ describe Totango::Client do
 
     it {@client.build_url(:u => "user").should match(/sdr_u=user/)}
     it {@client.build_url(:user => "user").should match(/sdr_u=user/)}
+
+    it {@client.build_url(:ofid => "org").should match(/sdr_ofid=org/)}
+    it {@client.build_url(:organization_foreign_id => "org").should match(/sdr_ofid=org/)}
   end
 
   describe "Tracking" do

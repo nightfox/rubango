@@ -32,6 +32,16 @@ You now interact with `Totango.client` to do your bidding:
       :module => "Current module"
     })
 
+You can optionally pass a 'Foreign ID' to Activity Events to indicate the Organization’s identifier on foreign systems:
+
+    Totango.client.track({
+      :organization => "Current organization",
+      :user => "Current user",
+      :activity => "Current activity",
+      :module => "Current module",
+      :ofid => "1234"
+    })
+
 By default, Totango will create a new thread to make the remote calls. If you already track the events using a background job, you should use synchronous calls. To turn synchronous calls on, use `Totango::Config`:
 
     Totango::Config[:synchronous] = true
