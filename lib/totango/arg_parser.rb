@@ -41,6 +41,7 @@ module Totango
     parses_arg :sdr_o, :o, :org, :organization
     parses_arg :sdr_m, :m, :mod, :module
     parses_arg :sdr_u, :u, :user
+    parses_arg :sdr_ofid, :ofid, :organization_foreign_id
 
     def to_params
       ArgParser.named_args.map do |arg|
