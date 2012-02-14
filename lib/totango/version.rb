@@ -1,3 +1,3 @@
 module Totango
-  VERSION = "0.1.3" unless defined?(::Totango::VERSION)
+  VERSION = "0.1.4" unless defined?(::Totango::VERSION)
 end
