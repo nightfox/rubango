@@ -1,3 +1,10 @@
+UNMAINTAINED PROJECT WARNING
+============================
+
+*This project is currently unmaintained*
+
+Anyone who wishes to take it over, please let me know.
+
 rubango
 ================
 
