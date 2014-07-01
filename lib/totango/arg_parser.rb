@@ -9,7 +9,7 @@ module Totango
         new.tap do |parser|
           args.each do |arg, val|
             param = registered_args[arg]
-            param = ["sdr_o", arg].join(".").to_sym unless param
+            param = custom_param_name(arg) unless param
 
             parser[param] = val
           end
@@ -31,6 +31,12 @@ module Totango
         @__registered_args__ ||= {}
       end
 
+      def custom_param_name(arg)
+        return "sdr_u.name" if arg == :user_name
+
+        ["sdr_o", arg].join(".").to_sym
+      end
+
       def register_named_arg!(name)
         @named_args ||= []
         @named_args << name
@@ -49,7 +55,7 @@ module Totango
     end
 
     def to_params
-      args = ArgParser.named_args + values_hash.keys
+      args = (ArgParser.named_args + values_hash.keys).uniq
 
       args.map do |arg|
         [arg, CGI.escape(self[arg].to_s)].join("=") if arg && self[arg]
