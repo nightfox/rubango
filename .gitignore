@@ -1,4 +1,5 @@
 *.sw[o|p]
 .bundle
+.idea/
 Gemfile.lock
 *.gem

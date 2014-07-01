@@ -2,14 +2,14 @@ module Totango
   class InvalidParamError < StandardError; end
 
   class ArgParser
-    class <<self
+    class << self
       attr_reader :named_args
 
       def parse(args)
         new.tap do |parser|
           args.each do |arg, val|
             param = registered_args[arg]
-            raise InvalidParamError, "'#{arg}' does not map to a valid param" unless param
+            param = ["sdr_o", arg].join(".").to_sym unless param
 
             parser[param] = val
           end
@@ -37,24 +37,31 @@ module Totango
       end
     end
 
-    parses_arg :sdr_a, :a, :act, :activity
-    parses_arg :sdr_o, :o, :org, :organization
-    parses_arg :sdr_m, :m, :mod, :module
-    parses_arg :sdr_u, :u, :user
-    parses_arg :sdr_ofid, :ofid, :organization_foreign_id
+    parses_arg :sdr_a,          :activity
+    parses_arg :sdr_o,          :account_id
+    parses_arg :sdr_odn,        :account_name
+    parses_arg :sdr_m,          :module
+    parses_arg :sdr_u,          :user_id
+    parses_arg :sdr_ofid,       :organization_foreign_id
+
+    def values_hash
+      @__values_hash__ ||= {}
+    end
 
     def to_params
-      ArgParser.named_args.map do |arg|
-        [arg, CGI.escape(self[arg].to_s)].join("=")
-      end.join("&")
+      args = ArgParser.named_args + values_hash.keys
+
+      args.map do |arg|
+        [arg, CGI.escape(self[arg].to_s)].join("=") if arg && self[arg]
+      end.compact.join("&")
     end
 
     def [](arg)
-      instance_variable_get :"@#{arg}"
+      values_hash[arg]
     end
 
     def []=(arg, val)
-      instance_variable_set :"@#{arg}", val
+      values_hash[arg] = val
     end
   end
 end
