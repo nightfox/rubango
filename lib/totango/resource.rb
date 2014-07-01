@@ -3,8 +3,10 @@ module Totango
 
   module Resource
     @sp_defaults = {
-      :organization => "Default Org",
-      :user => "Default User",
+      :account_id => "Default Id",
+      :account_name => "Deafult name",
+      :user_id => "Default User ID",
+      :user_name => "Default User",
       :activity => "Default Activity",
       :module => "Default Module"
     }
