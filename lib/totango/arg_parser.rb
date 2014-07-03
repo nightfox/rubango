@@ -33,6 +33,7 @@ module Totango
 
       def custom_param_name(arg)
         return "sdr_u.name" if arg == :user_name
+        return "sdr_u.ofid" if arg == :user_ofid
 
         ["sdr_o", arg].join(".").to_sym
       end
