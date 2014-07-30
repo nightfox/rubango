@@ -32,10 +32,9 @@ module Totango
       end
 
       def custom_param_name(arg)
-        return "sdr_u.name" if arg == :user_name
-        return "sdr_u.ofid" if arg == :user_ofid
+        return ['sdr_u', arg.to_s.split('_')[1..-1].join('_')].join('.') if arg.to_s .split('_').first == 'user'
 
-        ["sdr_o", arg].join(".").to_sym
+        ['sdr_o', arg].join('.').to_sym
       end
 
       def register_named_arg!(name)
